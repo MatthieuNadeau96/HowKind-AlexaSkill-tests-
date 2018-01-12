@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MatthieuNadeau96/HowKind-AlexaSkill",
   "dependencies": {
+    "alexa-sdk": "^1.0.25",
     "universal-analytics": "^0.4.13"
   }
 }
