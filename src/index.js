@@ -14,7 +14,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 // var tipsHeard = [];
 
 var speechOutput;
-const welcomeOutput = "Hello, Tell me to begin when you are ready. ";
+const welcomeOutput = "Hello, I'm going to ask you some questions to find out how kind you are. All you have to do, is say: yes. no. or, sometimes. Tell me to begin when you are ready to start. ";
 var reprompt = "Just tell me when you're ready, to begin. ";
 const DaysLeftIntro = [
   "Okay. ",
@@ -127,67 +127,115 @@ const handlers = {
       // var bodyMassIndex = (parseInt(weight)*703)/(parseInt(height)*parseInt(height));
 
 
+      // Q1 = Do you listen patiently, when someone says the same tired old story, or the same stale joke?
 
-
-      if(parseInt(questionOne) === 1) {
-        result += 2;
-      } else if (parseInt(questionOne) === 2) {
-        result -= 3;
-      } else if (parseInt(questionOne) === 3) {
-        result += 2;
-      } else if (parseInt(questionOne) === 4) {
-        result -= 4;
-      } else {
-        result -= 10;
-      }
-
-      if(parseInt(questionTwo) === 1) {
-        result -= 1;
-      } else if (parseInt(questionTwo) === 2) {
-        result += 1;
-      } else if (parseInt(questionTwo) === 3) {
-        result -= 2;
-      } else if (parseInt(questionTwo) === 4) {
+      if(questionOne === "yes") {
         result += 3;
-      } else {
-        result -= 10;
-      }
-
-      if(parseInt(questionThree) === 1) {
+      } else if (questionOne === "no") {
         result -= 1;
-      } else if (parseInt(questionThree) === 2) {
+      } else if (questionOne === "sometimes") {
         result += 2;
-      } else if (parseInt(questionThree) === 3) {
-        result -= 3;
-      } else if (parseInt(questionThree) === 4) {
-        result -= 4;
       } else {
         result -= 10;
       }
 
-      if(parseInt(questionFour) === 1) {
-        result += 1;
-      } else if (parseInt(questionFour) === 2) {
+      // Q2 = When people begin to gossip, do you make strenuous efforts to change the subject quickly?
+
+      if(questionTwo === "yes") {
+        result += 2;
+      } else if (questionTwo === "no") {
         result -= 3;
-      } else if (parseInt(questionFour) === 3) {
+      } else if (questionTwo === "sometimes") {
+        result += 1;
+      } else {
+        result -= 10;
+      }
+
+      // Q3 = When someone insults you, do you (before you respond, to the insult) call to mind how many times God has forgiven you, and then resolve to be just as forgiving?
+
+      if(questionThree === "yes") {
+        result += 1;
+      } else if (questionThree === "no") {
+        result -= 3;
+      } else if (questionThree === "sometimes") {
+        result += 2;
+      } else {
+        result -= 10;
+      }
+
+      // Q4 = When you're not sure about another person's motives, do you assume that his motives are good until you have evidence otherwise?
+
+      if(questionFour === "yes") {
+        result += 2;
+      } else if (questionFour === "no") {
+        result -= 1;
+      } else if (questionFour === "sometimes") {
+        result += 1;
+      } else {
+        result -= 10;
+      }
+
+      // Q5 = Do you make efforts to be reconciled with persons who have wronged you?
+
+      if(questionFive === "yes") {
         result += 4;
-      } else if (parseInt(questionFour) === 4) {
-        result -= 4;
+      } else if (questionFive === "no") {
+        result -= 2;
+      } else if (questionFive === "sometimes") {
+        result += 2;
       } else {
         result -= 10;
       }
 
-      if(parseInt(questionFive) === 1) {
-        result += 1;
-      } else if (parseInt(questionFive) === 2) {
-        result += 2;
-      } else if (parseInt(questionFive) === 3) {
-        result -= 2;
-      } else if (parseInt(questionFive) === 4) {
-        result += 1;
-      } else {
-        result -= 10;
-      }
+      // if(parseInt(questionSix) === "yes") {
+      //   result += 1;
+      // } else if (parseInt(questionSix) === "no") {
+      //   result -= 3;
+      // } else if (parseInt(questionSix) === "sometimes") {
+      //   result += 2;
+      // } else {
+      //   result -= 10;
+      // }
+      //
+      // if(parseInt(questionSeven) === "yes") {
+      //   result += 1;
+      // } else if (parseInt(questionSeven) === "no") {
+      //   result -= 3;
+      // } else if (parseInt(questionSeven) === "sometimes") {
+      //   result += 2;
+      // } else {
+      //   result -= 10;
+      // }
+      //
+      // if(parseInt(questionEight) === "yes") {
+      //   result += 1;
+      // } else if (parseInt(questionEight) === "no") {
+      //   result -= 3;
+      // } else if (parseInt(questionEight) === "sometimes") {
+      //   result += 2;
+      // } else {
+      //   result -= 10;
+      // }
+      //
+      // if(parseInt(questionNine) === "yes") {
+      //   result += 1;
+      // } else if (parseInt(questionNine) === "no") {
+      //   result -= 3;
+      // } else if (parseInt(questionNine) === "sometimes") {
+      //   result += 2;
+      // } else {
+      //   result -= 10;
+      // }
+      //
+      // if(parseInt(questionTen) === "yes") {
+      //   result += 1;
+      // } else if (parseInt(questionTen) === "no") {
+      //   result -= 3;
+      // } else if (parseInt(questionTen) === "sometimes") {
+      //   result += 2;
+      // } else {
+      //   result -= 10;
+      // }
 
 
       //////////////////////////////////////////////////////////
@@ -211,7 +259,7 @@ const handlers = {
         result = 0;
       }
 
-      this.attributes["result"] = result.toString();
+      this.attributes["result"] = result;
       // this.attributes["userName"] = userName.toString();
 
         console.log("result = " + result);
@@ -221,7 +269,6 @@ const handlers = {
         console.log("questionThree: " + questionThree);
         console.log("questionFour: " + questionFour);
         console.log("questionFive: " + questionFive);
-        console.log("result.toString(): " + result.toString());
 
       speechOutput += "<break time=\".6s\"/>Okay " + userName + ". Your guess, was, " + userGuess + ", out of ten.<break time=\".8s\"/> But really, your kindness, is about " + result + ", out of ten. "
 
