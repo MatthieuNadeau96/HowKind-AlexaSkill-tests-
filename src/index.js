@@ -95,116 +95,100 @@ const handlers = {
 
       var userName=this.event.request.intent.slots.userName.value;
       this.attributes['userName'] = userName;
+      var userGuess=this.event.request.intent.slots.userGuess.value;
+      this.attributes['userGuess'] = userGuess;
       var questionOne=this.event.request.intent.slots.questionOne.value;
       this.attributes['questionOne'] = questionOne;
       var questionTwo=this.event.request.intent.slots.questionTwo.value;
       this.attributes['questionTwo'] = questionTwo;
-      var userGuess=this.event.request.intent.slots.userGuess.value;
-      this.attributes['userGuess'] = userGuess;
+      var questionThree=this.event.request.intent.slots.questionThree.value;
+      this.attributes['questionThree'] = questionThree;
+      var questionFour=this.event.request.intent.slots.questionFour.value;
+      this.attributes['questionFour'] = questionFour;
+      var questionFive=this.event.request.intent.slots.questionFive.value;
+      this.attributes['questionFive'] = questionFive;
+      var questionSix=this.event.request.intent.slots.questionSix.value;
+      // this.attributes['questionSix'] = questionSix;
+      // var questionSeven=this.event.request.intent.slots.questionSeven.value;
+      // this.attributes['questionSeven'] = questionSeven;
+      // var questionEight=this.event.request.intent.slots.questionEight.value;
+      // this.attributes['questionEight'] = questionEight;
+      // var questionNine=this.event.request.intent.slots.questionNine.value;
+      // this.attributes['questionNine'] = questionNine;
+      // var questionTen=this.event.request.intent.slots.questionTen.value;
+      // this.attributes['questionTen'] = questionTen;
 
-      var result = 6;
+
+      var result = 0;
       // var today = new Date();
       // var currentDate = today.getFullYear() + '-'
       // + (today.getMonth()+1) + '-' + today.getDate();
       // var age = parseInt(currentDate) - parseInt(dateOfBirth);
       // var bodyMassIndex = (parseInt(weight)*703)/(parseInt(height)*parseInt(height));
 
-                        // questionOne condition
 
-      if(parseInt(questionOne) === 2) {
-        result += 3;
-      } else if (parseInt(questionOne) === 1) {
-        result += 1;
-      } else if (parseInt(questionOne) === 3){
-        result += 0;
+
+
+      if(parseInt(questionOne) === 1) {
+        result += 2;
+      } else if (parseInt(questionOne) === 2) {
+        result -= 3;
+      } else if (parseInt(questionOne) === 3) {
+        result += 2;
+      } else if (parseInt(questionOne) === 4) {
+        result -= 4;
       } else {
-        result -= 4;
-      };
-                          // questionTwo condition
-      if(parseInt(questionTwo) === 4) {
-        result += 1;
-      } else if (parseInt(questionTwo) === 1) {
-        result -= 4;
-      } else if (parseInt(questionTwo) === 2) {
-        result -= 2;
-      } else if (parseInt(questionTwo) === 3) {
-        result -= 1;
+        result -= 10;
       }
 
-      //                     //smoking condition
-      // if(parseInt(smoke) == 0 || smoke == "none" || smoke == "i don't smoke") {
-      //   yearsLeft += 2;
-      // } else if(parseInt(smoke) >= 2) {
-      //   yearsLeft -= 8;
-      // } else {
-      //   yearsLeft += 1;
-      // }
-      //
-      //                     //accident condition
-      // if(parseInt(drivingAccident) >= 4) {
-      //   yearsLeft -= 4;
-      // } else if(parseInt(drivingAccident) >= 1) {
-      //   yearsLeft += 0;
-      // } else {
-      //   yearsLeft += 1;
-      // };
-      //                     // DUI condition
-      // if(parseInt(drivingDUI) == 1 || 'once') {
-      //   yearsLeft -= 6;
-      // } else if (parseInt(drivingDUI) > 1) {
-      //   yearsLeft -= 12;
-      // } else {
-      //   yearsLeft += 1;
-      // };
-      //
-      //                     // BMI condition
-      // if(bodyMassIndex <= 18.5) {
-      //   yearsLeft -=1;
-      // } else if(bodyMassIndex <= 29) {
-      //   yearsLeft += 0;
-      // } else if(bodyMassIndex <= 39) {
-      //   yearsLeft -= 3;
-      // } else {
-      //   yearsLeft -= 10;
-      // };
-      //
-      //
-      // if(parseInt(sleep) == 7) {
-      //   yearsLeft += 1;
-      // } else if(parseInt(sleep) >= 8) {
-      //   yearsLeft += 2;
-      // } else if (parseInt(sleep) >= 5){
-      //   yearsLeft -= 1;
-      // } else {
-      //   yearsLeft -= 1;
-      // };
-      //
-      // if(parseInt(fastfood) > 3) {
-      //   yearsLeft -= 2;
-      // } else if (parseInt(fastfood) <= 3 && parseInt(fastfood) > 0) {
-      //   yearsLeft -= 1;
-      // } else {
-      //   yearsLeft += 1;
-      // };
-      //
-      //                     //alcohol condition
-      // if(parseInt(alcohol) == 0) {
-      //   yearsLeft += 1;
-      // } else if(parseInt(alcohol) <= 4) {
-      //   yearsLeft += 0;
-      // } else if(parseInt(alcohol) <= 6){
-      //   yearsLeft -= 3;
-      // } else if(parseInt(alcohol) >= 7){
-      //   yearsLeft -= 8;
-      // }
-      //
-      // if(parseInt(doctorvisits) == 1 || doctorvisits == "only when i need to") {
-      //   yearsLeft += 1;
-      // } else if (parseInt(doctorvisits) >= 2) {
-      //   yearsLeft += 2;
-      // } else {
-      //   yearsLeft -= 1;
-      // };
+      if(parseInt(questionTwo) === 1) {
+        result -= 1;
+      } else if (parseInt(questionTwo) === 2) {
+        result += 1;
+      } else if (parseInt(questionTwo) === 3) {
+        result -= 2;
+      } else if (parseInt(questionTwo) === 4) {
+        result += 3;
+      } else {
+        result -= 10;
+      }
+
+      if(parseInt(questionThree) === 1) {
+        result -= 1;
+      } else if (parseInt(questionThree) === 2) {
+        result += 2;
+      } else if (parseInt(questionThree) === 3) {
+        result -= 3;
+      } else if (parseInt(questionThree) === 4) {
+        result -= 4;
+      } else {
+        result -= 10;
+      }
+
+      if(parseInt(questionFour) === 1) {
+        result += 1;
+      } else if (parseInt(questionFour) === 2) {
+        result -= 3;
+      } else if (parseInt(questionFour) === 3) {
+        result += 4;
+      } else if (parseInt(questionFour) === 4) {
+        result -= 4;
+      } else {
+        result -= 10;
+      }
+
+      if(parseInt(questionFive) === 1) {
+        result += 1;
+      } else if (parseInt(questionFive) === 2) {
+        result += 2;
+      } else if (parseInt(questionFive) === 3) {
+        result -= 2;
+      } else if (parseInt(questionFive) === 4) {
+        result += 1;
+      } else {
+        result -= 10;
+      }
+
 
       //////////////////////////////////////////////////////////
       // var averageYearsLeft = numberWithCommas((yearsLeft) + (Math.round((87 - age))));
@@ -221,6 +205,12 @@ const handlers = {
       // result=this.event.request.intent.slots.result.value;
       // this.attributes['result'] = result;
 
+      if (parseInt(result) > 10) {
+        result = 10;
+      } else if (parseInt(result) < 0) {
+        result = 0;
+      }
+
       this.attributes["result"] = result.toString();
       // this.attributes["userName"] = userName.toString();
 
@@ -228,15 +218,24 @@ const handlers = {
         console.log("userName = " + userName);
         console.log("questionOne: " + questionOne);
         console.log("questionTwo: " + questionTwo);
+        console.log("questionThree: " + questionThree);
+        console.log("questionFour: " + questionFour);
+        console.log("questionFive: " + questionFive);
         console.log("result.toString(): " + result.toString());
 
-      speechOutput += "<break time=\".6s\"/>Okay " + userName + ". Your guess was, " + userGuess + " out of ten.<break time=\".8s\"/> But really, your kindness, is about " + result + " out of ten. "
+      speechOutput += "<break time=\".6s\"/>Okay " + userName + ". Your guess, was, " + userGuess + ", out of ten.<break time=\".8s\"/> But really, your kindness, is about " + result + ", out of ten. "
+
       // speechOutput += "If you would like to hear a tip, simply start the skill again.<break time=\"1s\"/> I'm here to help you.<break time=\".3s\"/>I want you to use the rest of your days wisely, <break time=\".3s\"/> and I hope that you do.<break time=\"1s\"/> Thank you."
+
+      //===================== CARD INFORMATION =======================
 
       // cardTitle = 'Come back for a Tip!';
       // cardContent = 'Years Left: ' + averageYearsLeft + '\nDays Left: ' + daysLeft + '\n...' + '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store. That would really help out, Thank you!' + '\n...' + '\nHere are results are based off of the answers you provided: ' + '\nBirthday: ' + parseInt(dateOfBirth) + '\nHeight: ' + parseInt(height) + 'in' + '\nWeight:  '+ parseInt(weight) + 'lbs' + '\nExercise: ' + parseInt(exercise) + ' hours a week' + '\nSmoke: ' + parseInt(smoke) + ' packs of cigerettes a week' + '\nAlcohol: ' + parseInt(alcohol) + ' drinks a week' + '\nStress: ' + parseInt(stress) + '\nDriving Accidents: ' + parseInt(drivingAccident) + ' in the past 3 years' + "\nDUI's: " + parseInt(drivingDUI) + '\nFast Food: ' + parseInt(fastfood) + ' times a month' + '\nSleep: ' + parseInt(sleep) + ' hours a day' + '\nDoctor Visits: ' + parseInt(doctorvisits) + ' a year' + '\n...\n If your results are not what you expected. Simply say: "Alexa, ask My Days Left to begin" to reset your questions.';
 
       // this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
+
+      // ================ DYNAMO READ FUNCTION ==========================
+          // I'LL USE THIS FOR userName TO SEE IF USER IS NEW OR NOT
 
       // readItem(this, tipsHeard, function(obj, data) {
       //   tipsHeard.push(data['Id']);
