@@ -29,8 +29,8 @@ const DaysLeftIntro = [
 var cardTitle = '';
 var cardContent = '';
 var imageObj = {
-    // smallImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/yearsLeft(108x108)movedhourglass.png',
-    // largeImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/yearsLeft(512x512)movedhourglass.png'
+    smallImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/APP_ICON.png',
+    largeImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/PolyRed-Final02+512.png'
 };
 
 const handlers = {
@@ -276,10 +276,20 @@ const handlers = {
 
       //===================== CARD INFORMATION =======================
 
-      // cardTitle = 'Come back for a Tip!';
-      // cardContent = 'Years Left: ' + averageYearsLeft + '\nDays Left: ' + daysLeft + '\n...' + '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store. That would really help out, Thank you!' + '\n...' + '\nHere are results are based off of the answers you provided: ' + '\nBirthday: ' + parseInt(dateOfBirth) + '\nHeight: ' + parseInt(height) + 'in' + '\nWeight:  '+ parseInt(weight) + 'lbs' + '\nExercise: ' + parseInt(exercise) + ' hours a week' + '\nSmoke: ' + parseInt(smoke) + ' packs of cigerettes a week' + '\nAlcohol: ' + parseInt(alcohol) + ' drinks a week' + '\nStress: ' + parseInt(stress) + '\nDriving Accidents: ' + parseInt(drivingAccident) + ' in the past 3 years' + "\nDUI's: " + parseInt(drivingDUI) + '\nFast Food: ' + parseInt(fastfood) + ' times a month' + '\nSleep: ' + parseInt(sleep) + ' hours a day' + '\nDoctor Visits: ' + parseInt(doctorvisits) + ' a year' + '\n...\n If your results are not what you expected. Simply say: "Alexa, ask My Days Left to begin" to reset your questions.';
+      if(result >= 7) {
+        cardTitle = "You're Extremely Kind!";
+      } else if (result < 7) {
+        cardTitle = "You're Kind!";
+      } else if (result > 3) {
+        cardTitle = "You aren't very Kind :(";
+      } else if (result <= 3) {
+        cardTitle = "You need to work on your Kindness!";
+      }
 
-      // this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
+
+      cardContent = 'How kind you thought you were: ' + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...' + '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store. That would really help out, Thank you!' + '\n...' + '\nHere are results are based off of the answers you provided: ' + '\nDo you listen patiently, when someone says the same tired old story, or the same stale joke? = ' + questionOne + '\nWhen people begin to gossip, do you make strenuous efforts to change the subject quickly? = ' + questionTwo + '\nWhen someone insults you, do you (before you respond, to the insult) call to mind how many times God has forgiven you, and then resolve to be just as forgiving? = ' + questionThree + "\nWhen you're not sure about another person's motives, do you assume that his motives are good until you have evidence otherwise? = " + questionFour + '\nDo you make efforts to be reconciled with persons who have wronged you? = ' + questionFive + '\n...\n If you have the time please check out my other Alexa Skill, My Days Left, to calculate how many days you have left to live based on your habits.'
+
+      this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
 
       // ================ DYNAMO READ FUNCTION ==========================
           // I'LL USE THIS FOR userName TO SEE IF USER IS NEW OR NOT
