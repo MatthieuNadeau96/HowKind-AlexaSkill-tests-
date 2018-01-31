@@ -29,8 +29,8 @@ const DaysLeftIntro = [
 var cardTitle = '';
 var cardContent = '';
 var imageObj = {
-    smallImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/APP_ICON.png',
-    largeImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/PolyRed-Final02+512.png'
+    smallImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/PolyRed-Final04+108.png',
+    largeImageUrl: 'https://s3.amazonaws.com/mydaysleftlogo/PolyRed-Final04+512.png'
 };
 
 const handlers = {
@@ -43,7 +43,6 @@ const handlers = {
 
     if(process.env.debugFlag){
       console.log('Launching LaunchRequest...')
-      console.log('this.attributes["daysLeft"] = ' + this.attributes['daysLeft'])
     };
     // if(this.attributes['daysLeft'] !== undefined) {
     //   if(process.env.debugFlag){console.log('this.attributes["tipsHeard"] = ' + this.attributes["tipsHeard"])};
@@ -108,11 +107,11 @@ const handlers = {
       var questionFive=this.event.request.intent.slots.questionFive.value;
       this.attributes['questionFive'] = questionFive;
       var questionSix=this.event.request.intent.slots.questionSix.value;
-      // this.attributes['questionSix'] = questionSix;
-      // var questionSeven=this.event.request.intent.slots.questionSeven.value;
-      // this.attributes['questionSeven'] = questionSeven;
-      // var questionEight=this.event.request.intent.slots.questionEight.value;
-      // this.attributes['questionEight'] = questionEight;
+      this.attributes['questionSix'] = questionSix;
+      var questionSeven=this.event.request.intent.slots.questionSeven.value;
+      this.attributes['questionSeven'] = questionSeven;
+      var questionEight=this.event.request.intent.slots.questionEight.value;
+      this.attributes['questionEight'] = questionEight;
       // var questionNine=this.event.request.intent.slots.questionNine.value;
       // this.attributes['questionNine'] = questionNine;
       // var questionTen=this.event.request.intent.slots.questionTen.value;
@@ -127,43 +126,43 @@ const handlers = {
       // var bodyMassIndex = (parseInt(weight)*703)/(parseInt(height)*parseInt(height));
 
 
-      // Q1 = Do you listen patiently, when someone says the same tired old story, or the same stale joke?
+      // Q1 = When you're unsure about another person's motives, do you assume that his/her motives are good until you have evidence otherwise?
 
       if(questionOne === "yes") {
-        result += 3;
+        result += 2;
       } else if (questionOne === "no") {
         result -= 1;
       } else if (questionOne === "sometimes") {
-        result += 2;
+        result += 1;
       } else {
         result -= 10;
       }
 
-      // Q2 = When people begin to gossip, do you make strenuous efforts to change the subject quickly?
+      // Q2 = Do you consider yourself to have a high degree of self respect?
 
       if(questionTwo === "yes") {
         result += 2;
       } else if (questionTwo === "no") {
-        result -= 3;
+        result -= 1;
       } else if (questionTwo === "sometimes") {
         result += 1;
       } else {
         result -= 10;
       }
 
-      // Q3 = When someone insults you, do you (before you respond, to the insult) call to mind how many times God has forgiven you, and then resolve to be just as forgiving?
+      // Q3 = Are you always trying to be as honest as possible?
 
       if(questionThree === "yes") {
-        result += 1;
+        result += 3;
       } else if (questionThree === "no") {
-        result -= 3;
+        result -= 2;
       } else if (questionThree === "sometimes") {
-        result += 2;
+        result += 1;
       } else {
         result -= 10;
       }
 
-      // Q4 = When you're not sure about another person's motives, do you assume that his motives are good until you have evidence otherwise?
+      // Q4 = Do you help out a friend, even if your friend doesn't return the favor?
 
       if(questionFour === "yes") {
         result += 2;
@@ -175,14 +174,50 @@ const handlers = {
         result -= 10;
       }
 
-      // Q5 = Do you make efforts to be reconciled with persons who have wronged you?
+      // Q5 = When people begin to gossip, do you make an effort to change the subject?
 
       if(questionFive === "yes") {
-        result += 4;
+        result += 1;
       } else if (questionFive === "no") {
-        result -= 2;
+        result -= 1;
       } else if (questionFive === "sometimes") {
+        result += .5;
+      } else {
+        result -= 10;
+      }
+
+      // Q6 = Do you find it difficult to forgive those who have wronged you?
+
+      if(questionSix === "yes") {
+        result -= 2;
+      } else if (questionSix === "no") {
         result += 2;
+      } else if (questionSix === "sometimes") {
+        result += 1;
+      } else {
+        result -= 10;
+      }
+
+      // Q7 = Do you listen patiently when someone says the same old story, or same old stale joke?
+
+      if(questionSeven === "yes") {
+        result += 2;
+      } else if (questionSeven === "no") {
+        result -= 1;
+      } else if (questionSeven === "sometimes") {
+        result += 1;
+      } else {
+        result -= 10;
+      }
+
+      // Q8 = Do you consider yourself to have control over your temper and emotions?
+
+      if(questionEight === "yes") {
+        result += 2;
+      } else if (questionEight === "no") {
+        result -= 2;
+      } else if (questionEight === "sometimes") {
+        result += 1;
       } else {
         result -= 10;
       }
@@ -253,6 +288,10 @@ const handlers = {
       // result=this.event.request.intent.slots.result.value;
       // this.attributes['result'] = result;
 
+      var realResult = result;
+
+      this.attributes["realResult"] = realResult;
+
       if (parseInt(result) > 10) {
         result = 10;
       } else if (parseInt(result) < 0) {
@@ -262,6 +301,7 @@ const handlers = {
       this.attributes["result"] = result;
       // this.attributes["userName"] = userName.toString();
 
+        console.log("realResult = " + realResult);
         console.log("result = " + result);
         console.log("userName = " + userName);
         console.log("questionOne: " + questionOne);
@@ -269,25 +309,38 @@ const handlers = {
         console.log("questionThree: " + questionThree);
         console.log("questionFour: " + questionFour);
         console.log("questionFive: " + questionFive);
+        console.log("questionSix: " + questionSix);
+        console.log("questionSeven: " + questionSeven);
+        console.log("questionEight: " + questionEight);
 
       speechOutput += "<break time=\".6s\"/>Okay " + userName + ". Your guess, was, " + userGuess + ", out of ten.<break time=\".8s\"/> But really, your kindness, is about " + result + ", out of ten. "
+
+      if(result > 7) {
+        speechOutput += "You're really kind! You should be proud of that.";
+      } else if(result < 5) {
+        speechOutput += "I think that you should work on being kind to others. Love is all we really have in this, extremely temporary life.";
+      }
 
       // speechOutput += "If you would like to hear a tip, simply start the skill again.<break time=\"1s\"/> I'm here to help you.<break time=\".3s\"/>I want you to use the rest of your days wisely, <break time=\".3s\"/> and I hope that you do.<break time=\"1s\"/> Thank you."
 
       //===================== CARD INFORMATION =======================
 
+      var capitalName = capitalize(userName);
+
       if(result >= 7) {
-        cardTitle = "You're Extremely Kind!";
+        cardTitle = "You're Extremely Kind " + capitalName + "!";
       } else if (result < 7) {
-        cardTitle = "You're Kind!";
+        cardTitle = "You're Kind " + capitalName + "!"
       } else if (result > 3) {
-        cardTitle = "You aren't very Kind :(";
+        cardTitle = "You aren't very Kind " + capitalName + " :(";
       } else if (result <= 3) {
-        cardTitle = "You need to work on your Kindness!";
+        cardTitle = "You need to work on your Kindness " + capitalName + "!";
       }
 
 
-      cardContent = 'How kind you thought you were: ' + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...' + '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store. That would really help out, Thank you!' + '\n...' + '\nHere are results are based off of the answers you provided: ' + '\nDo you listen patiently, when someone says the same tired old story, or the same stale joke? = ' + questionOne + '\nWhen people begin to gossip, do you make strenuous efforts to change the subject quickly? = ' + questionTwo + '\nWhen someone insults you, do you (before you respond, to the insult) call to mind how many times God has forgiven you, and then resolve to be just as forgiving? = ' + questionThree + "\nWhen you're not sure about another person's motives, do you assume that his motives are good until you have evidence otherwise? = " + questionFour + '\nDo you make efforts to be reconciled with persons who have wronged you? = ' + questionFive + '\n...\n If you have the time please check out my other Alexa Skill, My Days Left, to calculate how many days you have left to live based on your habits.'
+      cardContent = 'How kind you thought you were: ' + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...' + '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store. That would really help out, Thank you!' + '\n...' + '\nHere are the questions you answered: \n' +
+      '\n.\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store!\n.\n All you need to do is: \n1. Go to the "Skills" section on your Alexa app\n 2. Tap "Your Skills" in the top right corner\n3. Find "My Kind Test" \n4. Scroll to the bottom and tap "Write a Review"\n5. Show support! \n~\n Enjoy the present moment! :)'; +
+      '\n...\n If you have the time please check out my other Alexa Skill, My Days Left, to calculate how many days you have left to live based on your habits.'
 
       this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
 
@@ -440,4 +493,8 @@ function isSlotValid(request, slotName){
             //we didn't get a value in the slot.
             return false;
         }
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
