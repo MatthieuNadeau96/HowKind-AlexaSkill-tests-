@@ -129,11 +129,11 @@ const handlers = {
       // Q1 = When you're unsure about another person's motives, do you assume that his/her motives are good until you have evidence otherwise?
 
       if(questionOne === "yes") {
-        result += 2;
+        result += 1;
       } else if (questionOne === "no") {
         result -= 1;
       } else if (questionOne === "sometimes") {
-        result += 1;
+        result += 0;
       } else {
         result -= 10;
       }
@@ -141,11 +141,11 @@ const handlers = {
       // Q2 = Do you consider yourself to have a high degree of self respect?
 
       if(questionTwo === "yes") {
-        result += 2;
+        result += 1;
       } else if (questionTwo === "no") {
         result -= 1;
       } else if (questionTwo === "sometimes") {
-        result += 1;
+        result += 0;
       } else {
         result -= 10;
       }
@@ -153,9 +153,9 @@ const handlers = {
       // Q3 = Are you always trying to be as honest as possible?
 
       if(questionThree === "yes") {
-        result += 3;
+        result += 2;
       } else if (questionThree === "no") {
-        result -= 2;
+        result -= 1;
       } else if (questionThree === "sometimes") {
         result += 1;
       } else {
@@ -179,9 +179,9 @@ const handlers = {
       if(questionFive === "yes") {
         result += 1;
       } else if (questionFive === "no") {
-        result -= 1;
+        result += 0;
       } else if (questionFive === "sometimes") {
-        result += .5;
+        result += 1;
       } else {
         result -= 10;
       }
@@ -189,7 +189,7 @@ const handlers = {
       // Q6 = Do you find it difficult to forgive those who have wronged you?
 
       if(questionSix === "yes") {
-        result -= 2;
+        result -= 1;
       } else if (questionSix === "no") {
         result += 2;
       } else if (questionSix === "sometimes") {
@@ -215,7 +215,7 @@ const handlers = {
       if(questionEight === "yes") {
         result += 2;
       } else if (questionEight === "no") {
-        result -= 2;
+        result -= 1;
       } else if (questionEight === "sometimes") {
         result += 1;
       } else {
@@ -338,8 +338,7 @@ const handlers = {
       }
 
 
-      cardContent = 'How kind you thought you were: ' + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...' + '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store. That would really help out, Thank you!' + '\n...' + '\nHere are the questions you answered: \n' +
-      '\n.\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store!\n.\n All you need to do is: \n1. Go to the "Skills" section on your Alexa app\n 2. Tap "Your Skills" in the top right corner\n3. Find "My Kind Test" \n4. Scroll to the bottom and tap "Write a Review"\n5. Show support! \n~\n Enjoy the present moment! :)'; +
+      cardContent = 'How kind you thought you were: ' + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...'+ '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store!\n...\n All you need to do is: \n1. Go to the "Skills" section on your Alexa app\n 2. Tap "Your Skills" in the top right corner\n3. Find "How Kind Am I" \n4. Scroll to the bottom and tap "Write a Review"\n5. Show support!\n...\n That would really help out, Thank You!.\n~\n Enjoy the present moment! :)'; +
       '\n...\n If you have the time please check out my other Alexa Skill, My Days Left, to calculate how many days you have left to live based on your habits.'
 
       this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
