@@ -18,6 +18,7 @@
   "homepage": "https://github.com/MatthieuNadeau96/HowKind-AlexaSkill",
   "dependencies": {
     "alexa-sdk": "^1.0.25",
+    "mixpanel": "^0.8.0",
     "universal-analytics": "^0.4.16"
   }
 }

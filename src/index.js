@@ -1,6 +1,6 @@
 'use strict';
 const Alexa = require("alexa-sdk");
-const APP_ID = 'amzn1.ask.skill.98519029-9c30-464a-832a-705dfb3789f5'
+const APP_ID = 'amzn1.ask.skill.98519029-9c30-464a-832a-705dfb3789f5';
 var AWS = require('aws-sdk');
 // var googleUA = 'UA-104151044-2'; //tracking ID
 
@@ -11,6 +11,12 @@ AWS.config.update({
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 var ua = require('universal-analytics');
+var gUA = ua('UA-104151044-3'); // Tracking-ID
+
+var Mixpanel = require('mixpanel');
+var mixpanel = Mixpanel.init('8eaa60e48fa8e49d3198f6dbab4f00d8'); // Token
+
+
 // ID ====== 'UA-104151044-3'
 // TRACKING SIGNATURE ===  intentTrackingID.event("Event Category", "Event Action").send()
 
@@ -23,9 +29,7 @@ const DaysLeftIntro = [
   "Great. ",
   "Nice. ",
   "Alright. ",
-  "Excellent. ",
-  "Thank you! ",
-  "Splendid! "
+  "Excellent. "
 ];
 
 var cardTitle = '';
@@ -44,21 +48,22 @@ const handlers = {
 
     // Declare the intentTrackingID's Google Tracking ID
 
-    // GOOGLE ANALYTICS
+    // ANALYTICS
 
     // Make sure this is a locally-scoped var within each intent function.
-    var intentTrackingID = ua('UA-104151044-3');
 
-    // report a blank value
-    intentTrackingID.event("invalid request","blank value").send();
+    // // report a blank value
+    // gUA.event("invalid request","misunderstood statement").send();
+    // mixpanel.track("user error", {result: "misunderstood statement"});
 
     // report a success
-    var requestedData = ("inputDate: " + inputDate + " myVar: " + myVar).toString();
-    intentTrackingID.event("success", requestedData).send();
+    var utteranceValue = "SessionEndedRequest";
+    var utteranceData = ("intent: " + utteranceValue).toString();
+    gUA.event("user query","successful query", {query: utteranceData}).send();
+    mixpanel.track("Successful Launch", {query: utteranceData});
 
-    // report a failure
-    intentTrackingID.event("error", error.toString()).send();
 
+    ///////////////////////////////////////////////////////////////////////
 
     if(process.env.debugFlag){
       console.log('Launching LaunchRequest...');
@@ -103,11 +108,6 @@ const handlers = {
 
 
       var result = 0;
-      // var today = new Date();
-      // var currentDate = today.getFullYear() + '-'
-      // + (today.getMonth()+1) + '-' + today.getDate();
-      // var age = parseInt(currentDate) - parseInt(dateOfBirth);
-      // var bodyMassIndex = (parseInt(weight)*703)/(parseInt(height)*parseInt(height));
 
 
       // Q1 = When you're unsure about another person's motives, do you assume that his/her motives are good until you have evidence otherwise?
@@ -206,36 +206,6 @@ const handlers = {
         result -= 10;
       }
 
-      // if(parseInt(questionSix) === "yes") {
-      //   result += 1;
-      // } else if (parseInt(questionSix) === "no") {
-      //   result -= 3;
-      // } else if (parseInt(questionSix) === "sometimes") {
-      //   result += 2;
-      // } else {
-      //   result -= 10;
-      // }
-      //
-      // if(parseInt(questionSeven) === "yes") {
-      //   result += 1;
-      // } else if (parseInt(questionSeven) === "no") {
-      //   result -= 3;
-      // } else if (parseInt(questionSeven) === "sometimes") {
-      //   result += 2;
-      // } else {
-      //   result -= 10;
-      // }
-      //
-      // if(parseInt(questionEight) === "yes") {
-      //   result += 1;
-      // } else if (parseInt(questionEight) === "no") {
-      //   result -= 3;
-      // } else if (parseInt(questionEight) === "sometimes") {
-      //   result += 2;
-      // } else {
-      //   result -= 10;
-      // }
-      //
       // if(parseInt(questionNine) === "yes") {
       //   result += 1;
       // } else if (parseInt(questionNine) === "no") {
@@ -256,23 +226,8 @@ const handlers = {
       //   result -= 10;
       // }
 
-
-      //////////////////////////////////////////////////////////
-      // var averageYearsLeft = numberWithCommas((yearsLeft) + (Math.round((87 - age))));
-      // var daysLeft = numberWithCommas(averageYearsLeft*365);
-      // var hoursLeft = numberWithCommas(averageYearsLeft*8760);
-      // var minutesLeft = numberWithCommas(averageYearsLeft*525600);
-      // var secondsLeft = numberWithCommas(averageYearsLeft*31557600);
-      // if(this.attributes['tipsHeard'] !== undefined) {
-      //   tipsHeard = this.attributes["tipsHeard"];
-      //   if (tipsHeard === undefined) {
-      //     tipsHeard = [];
-      //   }
-      // }
-      // result=this.event.request.intent.slots.result.value;
-      // this.attributes['result'] = result;
-
       var realResult = result;
+      var capitalName = capitalize(userName);
 
       this.attributes["realResult"] = realResult;
 
@@ -297,6 +252,7 @@ const handlers = {
         console.log("questionSeven: " + questionSeven);
         console.log("questionEight: " + questionEight);
 
+
       speechOutput += "<break time=\".6s\"/>Okay " + userName + ". Your guess, was, " + userGuess + ", out of ten.<break time=\".8s\"/> But really, your kindness, is about " + result + ", out of ten. "
 
       if(result > 7) {
@@ -305,11 +261,6 @@ const handlers = {
         speechOutput += "I think that you should work on being kind to others. Love is all we really have in this, extremely temporary life.";
       }
 
-      // speechOutput += "If you would like to hear a tip, simply start the skill again.<break time=\"1s\"/> I'm here to help you.<break time=\".3s\"/>I want you to use the rest of your days wisely, <break time=\".3s\"/> and I hope that you do.<break time=\"1s\"/> Thank you."
-
-      //===================== CARD INFORMATION =======================
-
-      var capitalName = capitalize(userName);
 
       if(result >= 7) {
         cardTitle = "You're Extremely Kind " + capitalName + "!";
@@ -327,21 +278,6 @@ const handlers = {
 
       this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
 
-      // ================ DYNAMO READ FUNCTION ==========================
-          // I'LL USE THIS FOR userName TO SEE IF USER IS NEW OR NOT
-
-      // readItem(this, tipsHeard, function(obj, data) {
-      //   tipsHeard.push(data['Id']);
-      //   obj.attributes["tipsHeard"] = tipsHeard;
-      //   if(process.env.debugFlag){console.log("data['tip']: " + data['tip'])};
-      //
-      //   // obj.emit(":tell", "Okay." + data['tip'] + " <break time=\".6s\"/>If you would like to hear more tips," +
-      //   // "simply start the skill again.<break time=\"1s\"/> I'm here to help.<break time=\".3s\"/>I want you to use " +
-      //   // "the rest of your days wisely, <break time=\".3s\"/> and I hope that you do.<break time=\"1s\"/> Thank you.");
-      //   if(process.env.debugFlag){console.log("at the end of the second read item = " + tipsHeard)};
-      // });
-
-      if(process.env.debugFlag){console.log("tipsHeard after: " + tipsHeard)};
       this.response.speak(speechOutput);
       this.emit(":responseReady");
     },
@@ -351,11 +287,15 @@ const handlers = {
       this.emit(':responseReady');
     },
     "AMAZON.StopIntent": function() {
+      gUA.event("exist","session ended").send();
+      mixpanel.track("session ended");
       speechOutput = "Stopped";
       this.response.speak(speechOutput);
       this.emit(':responseReady');
     },
     "AMAZON.CancelIntent": function() {
+      gUA.event("exist","session ended").send();
+      mixpanel.track("session ended");
       speechOutput = "Cancelled";
       this.response.speak(speechOutput);
       this.emit(':responseReady');
@@ -364,6 +304,12 @@ const handlers = {
       console.log("UNHANDLED");
     },
     'SessionEndedRequest': function() {
+      // report a failure
+      var utteranceValue = "SessionEndedRequest";
+      var utteranceData = ("intent: " + utteranceValue).toString();
+      gUA.event("user query","failed query", utteranceData).send();
+      mixpanel.track("Failed Launch", {query: utteranceData});
+
       speechOutput = "Session Ended";
       this.response.speak(speechOutput);
       console.log('session ended!');
@@ -374,7 +320,7 @@ const handlers = {
 exports.handler = function(event, context, callback) {
   var alexa = Alexa.handler(event, context);
   alexa.appId = 'amzn1.ask.skill.98519029-9c30-464a-832a-705dfb3789f5';
-  alexa.dynamoDBTableName = 'HowKind';
+  alexa.dynamoDBTableName = 'TestingHowKind';
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
@@ -401,7 +347,15 @@ function delegateSlotCollection(){
         // return a Dialog.Delegate directive with no updatedIntent property.
         this.emit(":delegate");
       } else {
+
+        // report a success
+        var utteranceValue = "TestIntent";
+        var utteranceData = ("intent: " + utteranceValue).toString();
+        gUA.event("user query","successful query", {query: utteranceData}).send();
+        mixpanel.track("Successful Test", {query: utteranceData});
+
         if(process.env.debugFlag){
+          console.log("returning ANALYTICS!")
           console.log("in completed")
           console.log("returning: "+ JSON.stringify(this.event.request.intent))
         };
@@ -456,11 +410,6 @@ function getRandomTipWithExclusions(lengthOfArray = 0, arrayOfIndexesToExclude, 
 	}
   return rand;
 }
-
-function numberWithCommas(n) {
-  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 
 function isSlotValid(request, slotName){
         var slot = request.intent.slots[slotName];
