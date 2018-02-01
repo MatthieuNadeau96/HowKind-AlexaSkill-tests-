@@ -1,8 +1,7 @@
 'use strict';
 const Alexa = require("alexa-sdk");
-const APP_ID = 'amzn1.ask.skill.a9cecf35-c604-4b8d-b84b-2eff9f42dc17'
+const APP_ID = 'amzn1.ask.skill.98519029-9c30-464a-832a-705dfb3789f5'
 var AWS = require('aws-sdk');
-// var ua = require('universal-analytics');
 // var googleUA = 'UA-104151044-2'; //tracking ID
 
 AWS.config.update({
@@ -10,8 +9,11 @@ AWS.config.update({
 });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
-// var totalTips = process.env.TOTAL_TIP_COUNT;
-// var tipsHeard = [];
+
+var ua = require('universal-analytics');
+// ID ====== 'UA-104151044-3'
+// TRACKING SIGNATURE ===  intentTrackingID.event("Event Category", "Event Action").send()
+
 
 var speechOutput;
 const welcomeOutput = "Hello, I'm going to ask you some questions to find out how kind you are. All you have to do, is say: yes. no. or, sometimes. Tell me to begin when you are ready to start. ";
@@ -38,48 +40,30 @@ const handlers = {
 
     // Make sure this is a locally-scoped var within each intent function.
     // var intentTrackingID = ua(googleUA, {https: true});
-    // Google Analytics
     // intentTrackingID.pageview("/").send();
 
+    // Declare the intentTrackingID's Google Tracking ID
+
+    // GOOGLE ANALYTICS
+
+    // Make sure this is a locally-scoped var within each intent function.
+    var intentTrackingID = ua('UA-104151044-3');
+
+    // report a blank value
+    intentTrackingID.event("invalid request","blank value").send();
+
+    // report a success
+    var requestedData = ("inputDate: " + inputDate + " myVar: " + myVar).toString();
+    intentTrackingID.event("success", requestedData).send();
+
+    // report a failure
+    intentTrackingID.event("error", error.toString()).send();
+
+
     if(process.env.debugFlag){
-      console.log('Launching LaunchRequest...')
+      console.log('Launching LaunchRequest...');
+      console.log("Starting TestIntent...");
     };
-    // if(this.attributes['daysLeft'] !== undefined) {
-    //   if(process.env.debugFlag){console.log('this.attributes["tipsHeard"] = ' + this.attributes["tipsHeard"])};
-    //   tipsHeard = this.attributes["tipsHeard"];
-    //   if (tipsHeard === undefined) {
-    //     tipsHeard = [];
-    //   }
-    //   readItem(this, tipsHeard, function(obj, data) {
-    //     if(process.env.debugFlag){console.log("data in readItem: " + data)};
-    //
-    //     tipsHeard.push(data['Id']);
-    //     obj.attributes['tipsHeard'] = tipsHeard;
-    //
-    //     var average_YearsLeft = numberWithCommas(obj.attributes['averageYearsLeft']);
-    //     var days_Left = numberWithCommas(obj.attributes['daysLeft']);
-    //     var hoursLeft = numberWithCommas(average_YearsLeft*8760);
-    //     var minutesLeft = numberWithCommas(average_YearsLeft*525600);
-    //     var secondsLeft = numberWithCommas(average_YearsLeft*31557600);
-    //
-    //     cardTitle = 'Welcome back!\n';
-    //     cardContent = 'Years left: ' + average_YearsLeft + '\nDays left: ' + days_Left + '\nHours left: ' + hoursLeft + '\nMinutes left: ' + minutesLeft + '\nSeconds left: ' + secondsLeft + '\n...\nHere is your tip: '+ data['tipSimple'] + '\n...\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store!\n.\n All you need to do is: \n1. Go to the "Skills" section on your Alexa app\n 2. Tap "Your Skills" in the top right corner\n3. Find "My Years Left" \n4. Scroll to the bottom and tap "Write a Review"\n5. Show support! \n~\n Enjoy the present moment! :)';
-    //
-    //     obj.response.cardRenderer(cardTitle, cardContent, imageObj);
-    //     obj.response.speak("Welcome back, you have " + obj.attributes['daysLeft'] + " days left to live." +
-    //       " Here is a tip, to help you live a longer and healthier life. " + data['tip'] + '<break time="1s"/> I added this tip, and more information, on your Alexa skill.<break time=".6s"/>' + " Please don't be afraid to come back for more tips." +  '<break time=".6s"/>Thank you!');
-    //     obj.emit(':responseReady');
-    //
-    //     if(process.env.debugFlag){
-    //       console.log("Tips so far: " + tipsHeard)
-    //       console.log("TOTAL TIPS HEARD: " + tipsHeard.length)
-    //     };
-    //   });
-    // if (this.attributes['daysLeft'] == undefined) {
-    //   if(process.env.debugFlag){}
-    //
-    // };
-    console.log("Starting TestIntent...")
     this.response.speak(welcomeOutput).listen(reprompt);
     this.emit(':responseReady');
   },
@@ -389,7 +373,7 @@ const handlers = {
 
 exports.handler = function(event, context, callback) {
   var alexa = Alexa.handler(event, context);
-  alexa.appId = 'amzn1.ask.skill.a9cecf35-c604-4b8d-b84b-2eff9f42dc17';
+  alexa.appId = 'amzn1.ask.skill.98519029-9c30-464a-832a-705dfb3789f5';
   alexa.dynamoDBTableName = 'HowKind';
   alexa.registerHandlers(handlers);
   alexa.execute();
