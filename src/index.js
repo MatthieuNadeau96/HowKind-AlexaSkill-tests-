@@ -338,7 +338,7 @@ const handlers = {
       }
 
 
-      cardContent = 'How kind you thought you were: ' + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...'+ '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store!\n...\n All you need to do is: \n1. Go to the "Skills" section on your Alexa app\n 2. Tap "Your Skills" in the top right corner\n3. Find "How Kind Am I" \n4. Scroll to the bottom and tap "Write a Review"\n5. Show support!\n...\n That would really help out, Thank You!.\n~\n Enjoy the present moment! :)'; +
+      cardContent = "(I'm really sorry if I spelled your name wrong, Alexa isn't great with names yet.)\n...\nHow kind you thought you were: " + userGuess + '/10\nHow kind you really are: ' + result + '/10\n...'+ '\nIf you enjoyed this skill, please rate it 5 stars in the Alexa skill store!\n...\n All you need to do is: \n1. Go to the "Skills" section on your Alexa app\n 2. Tap "Your Skills" in the top right corner\n3. Find "How Kind Am I" \n4. Scroll to the bottom and tap "Write a Review"\n5. Show support!\n...\n That would really help out, Thank You!.\n~\n Enjoy the present moment! :)'; +
       '\n...\n If you have the time please check out my other Alexa Skill, My Days Left, to calculate how many days you have left to live based on your habits.'
 
       this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
